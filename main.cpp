@@ -1,7 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
-//#include "model/minefield.hpp"
+#include "model/minefield.hpp"
+#include "model/tile.hpp"
 
 using namespace std;
 
@@ -16,6 +17,9 @@ void clearConsole()
 int main()
 {
     clearConsole();
+
+    Minefield minefield = Minefield(10, 10);
+    minefield.getField();
 
     cout << "console display: \n\n";
 }
