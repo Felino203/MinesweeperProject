@@ -1,0 +1,33 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "Build Minesweeper Project",
+            "command": "C:/msys64/mingw64/bin/g++.exe",
+            "args": [
+                "-g",
+                "${fileWorkspaceFolder}/main.cpp",
+                "-o",
+                "${fileWorkspaceFolder}/build/minesweeper.exe"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "compiler: C:/msys64/mingw64/bin/g++.exe"
+        }
+    ],
+    "presentation": {
+        "echo": true,
+        "reveal": "never",
+        "focus": false,
+        "panel": "new"
+    },
+    "version": "2.0.0"
+}
