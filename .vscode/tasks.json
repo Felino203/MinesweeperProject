@@ -6,7 +6,8 @@
             "command": "C:/msys64/mingw64/bin/g++.exe",
             "args": [
                 "-g",
-                "${fileWorkspaceFolder}/main.cpp",
+                "${fileWorkspaceFolder}/*.cpp",
+                "${fileWorkspaceFolder}/model/*.cpp",
                 "-o",
                 "${fileWorkspaceFolder}/build/minesweeper.exe"
             ],

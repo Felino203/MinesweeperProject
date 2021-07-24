@@ -1,6 +1,6 @@
 #include "tile.hpp"
 
-Tile::Tile(int num)
+Tile::Tile(int num) : position(num)
 {
-    for (int i = 0; i `< )
+    value = 0;
 }

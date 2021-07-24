@@ -1,7 +1,7 @@
 class Tile
 {
 public:
-    Tile(int num) : position(num) {}
+    Tile(int num);
 
 private:
     int position;
