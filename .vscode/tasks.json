@@ -24,11 +24,5 @@
             "detail": "compiler: C:/msys64/mingw64/bin/g++.exe"
         }
     ],
-    "presentation": {
-        "echo": true,
-        "reveal": "never",
-        "focus": false,
-        "panel": "new"
-    },
     "version": "2.0.0"
 }

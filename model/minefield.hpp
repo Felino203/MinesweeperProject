@@ -11,7 +11,14 @@ class Minefield
 public:
     Minefield(int x, int y);
     vector<shared_ptr<Tile>> getField() { return field; }
+    void generateMines(int numMines);
+    void generateValues();
+    void printField();
 
 private:
-    vector<shared_ptr<Tile>> field;
+    bool isLooping(int position, int nextPosition);
+    vector<shared_ptr<Tile>>
+        field;
+    int fieldX;
+    int fieldY;
 };

@@ -18,8 +18,10 @@ int main()
 {
     clearConsole();
 
-    Minefield minefield = Minefield(10, 10);
-    minefield.getField();
+    Minefield minefield = Minefield(16, 30);
+    minefield.generateMines(99);
+    minefield.generateValues();
+    minefield.printField();
 
-    cout << "console display: \n\n";
+    cout << "\n";
 }
