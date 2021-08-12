@@ -27,7 +27,7 @@ void executeGame()
     minefield.generateValues();
     minefield.printField();
 
-    cout << "\n";
+    cout << "test";
 }
 
 class Minesweeper : public wxApp
