@@ -1,28 +1,39 @@
 {
-    "tasks": [
-        {
-            "type": "cppbuild",
-            "label": "Build Minesweeper Project",
-            "command": "C:/msys64/mingw64/bin/g++.exe",
-            "args": [
-                "-g",
-                "${fileWorkspaceFolder}/*.cpp",
-                "${fileWorkspaceFolder}/model/*.cpp",
-                "-o",
-                "${fileWorkspaceFolder}/build/minesweeper.exe"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "detail": "compiler: C:/msys64/mingw64/bin/g++.exe"
-        }
-    ],
-    "version": "2.0.0"
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "Build Minesweeper Project",
+			"command": "C:/msys64/mingw64/bin/g++.exe",
+			"args": [
+				"-g",
+				"${workspaceFolder}\\src\\*.cpp",
+				"-o",
+				"${workspaceFolder}\\build\\minesweeper.exe",
+				"-I",
+				"${workspaceFolder}\\include",
+				"-I",
+				"C:\\Program Files (x86)\\wxWidgets\\include\\wx-3.1",
+				"-I",
+				"C:\\Program Files (x86)\\wxWidgets\\lib\\wx\\include\\msw-unicode-3.1",
+				"-L",
+				"C:\\Program Files (x86)\\wxWidgets\\lib",
+				"-l",
+				"wx_mswud_core-3.1.dll",
+				"-l",
+				"wx_baseud-3.1.dll",
+			],
+			"options": {
+				"cwd": "C:/msys64/mingw64/bin"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "compiler: C:/msys64/mingw64/bin/g++.exe"
+		}
+	]
 }

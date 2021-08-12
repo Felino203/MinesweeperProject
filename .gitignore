@@ -1,1 +1,3 @@
-build/minesweeper.exe
+build/*
+*.dll
+*.exe
