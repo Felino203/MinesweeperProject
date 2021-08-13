@@ -1,10 +1,10 @@
-#include "minefield.hpp"
+#include "minefield.h"
 #include <iostream>
 #include <iomanip>
 #include <memory>
 #include <algorithm>
 #include <random>
-#include "tile.hpp"
+#include "tile.h"
 
 Minefield::Minefield(int x, int y) : fieldX(x), fieldY(y)
 {

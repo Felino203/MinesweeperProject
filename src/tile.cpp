@@ -1,4 +1,4 @@
-#include "tile.hpp"
+#include "tile.h"
 
 Tile::Tile(int num) : position(num)
 {

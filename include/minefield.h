@@ -1,7 +1,10 @@
-#pragma once
+#ifndef MINEFIELD_H
+#define MINEFIELD_H
+
 #include <string>
 #include <vector>
 #include <memory>
+
 using namespace std;
 
 class Tile;
@@ -22,3 +25,5 @@ private:
     int fieldX;
     int fieldY;
 };
+
+#endif
