@@ -7,7 +7,6 @@
 
 #include "mainframe.h"
 
-
 class Minesweeper : public wxApp
 {
 public:
@@ -18,6 +17,7 @@ wxIMPLEMENT_APP(Minesweeper);
 
 bool Minesweeper::OnInit()
 {
+    wxImage::AddHandler(new wxPNGHandler);
     MainFrame *frame = new MainFrame();
     frame->Show(true);
     return true;

@@ -7,19 +7,32 @@
 #include <wx/wx.h>
 #endif
 
+class GameBoard;
+
 class MainFrame : public wxFrame
 {
 public:
     MainFrame();
 
 private:
-    void OnBeginner(wxCommandEvent &event);
-    void OnIntermediate(wxCommandEvent &event);
-    void OnExpert(wxCommandEvent &event);
-    void OnCustom(wxCommandEvent &event);
-    void OnNew(wxCommandEvent &event);
-    void OnExit(wxCommandEvent &event);
-    void OnAbout(wxCommandEvent &event);
+    void createMenuBar();
+    void createGameBoard(int height, int width);
+
+    void onBeginner(wxCommandEvent &event);
+    void onIntermediate(wxCommandEvent &event);
+    void onExpert(wxCommandEvent &event);
+    void onCustom(wxCommandEvent &event);
+    void onNew(wxCommandEvent &event);
+    void onExit(wxCommandEvent &event);
+    void onAbout(wxCommandEvent &event);
+
+    void OnPaint(wxPaintEvent &e);
+
+    void clearChecks();
+
+    wxSizer *sizer = nullptr;
+    GameBoard *gameBoard = nullptr;
+    wxMenu *menuGame = nullptr;
 };
 
 enum EVENT_VALS
