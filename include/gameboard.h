@@ -9,6 +9,8 @@
 
 #include <unordered_map>
 #include <string>
+#include <set>
+using namespace std;
 
 class Minefield;
 
@@ -31,9 +33,12 @@ private:
     void prepDC(wxDC &dc);
     void drawBoard(wxDC &dc);
     float getScaleFactor();
+    void floodSearch(set<int> &items, set<int> directions, set<int> valuesSearched, int floodValue, int curPosition);
 
     int mouseToTile();
-    void mouseDown(wxMouseEvent &event);
+    void rightMouseDown(wxMouseEvent &event);
+    void leftMouseDown(wxMouseEvent &event);
+    void leftMouseRelease(wxMouseEvent &event);
 
     int rows = -1;
     int columns = -1;

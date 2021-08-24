@@ -12,6 +12,8 @@ public:
     void flag(bool flag) { flagged = flag; }
     void uncover() { covered = false; }
 
+    void setFlagged(bool isFlagged = true) { flagged = isFlagged; }
+    void setUncovered(bool isUncovered = true) { covered = !isUncovered; }
     bool isFlagged() { return flagged; }
     bool isCovered() { return covered; }
 

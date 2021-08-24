@@ -69,9 +69,9 @@ void MainFrame::createGameBoard(int rows, int columns)
 
     if (gameBoard != nullptr)
         gameBoard->Destroy();
-    gameBoard = new GameBoard(this, 10, 10);
+    gameBoard = new GameBoard(this, 20, 25);
 
-    mainSizer->Add(gameBoard, 1, wxEXPAND);
+    mainSizer->Add(gameBoard, 1, 0);
 
     gameBoard->paintNow();
     this->Refresh();
