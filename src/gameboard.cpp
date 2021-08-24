@@ -1,4 +1,7 @@
 #include "gameboard.h"
+#include "minefield.h"
+#include "tile.h"
+#include <cmath>
 
 #include "wx/dcclient.h"
 #include "wx/dcmemory.h"
@@ -6,83 +9,131 @@
 
 BEGIN_EVENT_TABLE(GameBoard, wxPanel)
 EVT_PAINT(GameBoard::OnPaint)
+EVT_SIZE(GameBoard::OnSize)
+EVT_LEFT_DOWN(GameBoard::mouseDown)
 END_EVENT_TABLE()
 
-GameBoard::GameBoard(wxFrame *parent) : m_parent(parent), wxPanel(parent)
+GameBoard::GameBoard(wxFrame *parent, int nbRows, int nbColumns) : m_parent(parent),
+                                                                   rows(nbRows),
+                                                                   columns(nbColumns),
+                                                                   wxPanel(parent)
 {
-    this->SetSize(200, 200);
+    minefield = new Minefield(columns, rows);
+    boardWidth = tileWidth * columns;
+    boardHeight = tileWidth * rows;
+    updateDimensions();
     SetBackgroundStyle(wxBG_STYLE_PAINT);
 }
 
-void GameBoard::OnPaint(wxPaintEvent &evt)
+void GameBoard::updateDimensions()
+{
+    m_parent->GetClientSize(&windowWidth, &windowHeight);
+
+    xPos = abs(windowWidth - windowHeight) / 2;
+    yPos = 0;
+    if (windowWidth <= windowHeight)
+    {
+        int temp = xPos;
+        xPos = yPos;
+        yPos = temp;
+    }
+
+    if (windowHeight < windowWidth)
+        windowWidth = windowHeight;
+    else
+        windowHeight = windowWidth;
+    this->SetSize(xPos, yPos, windowHeight, windowWidth);
+}
+
+void GameBoard::OnSize(wxSizeEvent &event)
+{
+    updateDimensions();
+    paintNow();
+    event.Skip();
+}
+
+void GameBoard::OnPaint(wxPaintEvent &event)
 {
     wxBufferedPaintDC dc(this);
     this->PrepareDC(dc);
-    render(dc);
+    prepDC(dc);
+    drawBoard(dc);
+    event.Skip();
 }
 
 void GameBoard::paintNow()
 {
     wxClientDC dc(this);
-    render(dc);
+    prepDC(dc);
+    drawBoard(dc);
 }
 
-void GameBoard::render(wxDC &dc)
+float GameBoard::getScaleFactor()
 {
-    dc.Clear();
-
-    wxImage *tileImg = new wxImage();
-    tileImg->LoadFile("assets\\blank_case.png", wxBITMAP_TYPE_PNG);
-
-    wxBitmap tileBmp = wxBitmap(*tileImg);
-
     float fWScale = 1.0f; // horizontal scaling factor
     float fHScale = 1.0f; // vertical scaling factor
-    int iImageH = -1;     // the bitmap's height
-    int iImageW = -1;     // the bitmap's width
-    int iThisH = -1;      // the panel's height
-    int iThisW = -1;      // the panel's width
 
-    // how is the bitmap's actual size?
-    iImageH = tileBmp.GetHeight();
-    iImageW = tileBmp.GetWidth();
+    // calculate the scaling factor for the 2 dimensions
+    fHScale = (float)windowHeight / (float)tileWidth / (float)(rows);
+    fWScale = (float)windowWidth / (float)tileWidth / (float)(columns);
 
-    //Panel size
-    GetSize(&iThisW, &iThisH);
+    // always take the smaller scaling factor,
+    // so that the bitmap will always fit into the panel's paintable area
+    if (fHScale < fWScale)
+        fWScale = fHScale;
+    else
+        fHScale = fWScale;
 
-    int rows = 10;
-    int columns = 10;
+    return fHScale;
+}
 
-    // no division by zero !
-    if ((iImageH > 0) && (iImageW > 0))
-    {
-        // calculate the scaling factor for the 2 dimensions
-        fHScale = (float)iThisH / (float)iImageH / (float)(rows);
-        fWScale = (float)iThisW / (float)iImageW / (float)(columns);
+void GameBoard::prepDC(wxDC &dc)
+{
+    float fHScale = getScaleFactor();
+    dc.SetUserScale(fHScale, fHScale);
+}
 
-        // always take the smaller scaling factor,
-        // so that the bitmap will always fit into the panel's paintable area
-        if (fHScale < fWScale)
-        {
-            fWScale = fHScale;
-        }
-        else
-        {
-            fHScale = fWScale;
-        }
-    }
-
+void GameBoard::drawBoard(wxDC &dc)
+{
     dc.Clear();
-    dc.SetUserScale(fHScale, fWScale);
-    int j = 0;
-    for (int i = 0; j < columns; i++)
+    for (int i = 0; i < columns * rows; i++)
     {
-        dc.SetUserScale(fHScale, fWScale);
-        dc.DrawBitmap(tileBmp, i * iImageH, j * iImageW, false);
-        if (i >= columns - 1)
-        {
-            j++;
-            i = -1;
-        }
+        drawSingleTile(dc, i, minefield->getField()[i]->getTileValue());
     }
+}
+
+void GameBoard::drawSingleTile(int tileNb, int tileVal)
+{
+    wxClientDC dc(this);
+    prepDC(dc);
+    drawSingleTile(dc, tileNb, tileVal);
+}
+
+void GameBoard::drawSingleTile(wxDC &dc, int tileNb, int tileVal)
+{
+    int x = tileNb / columns;
+    int y = tileNb % columns;
+    dc.DrawBitmap(spriteMap[tileVal], x * tileWidth, y * tileWidth, false);
+}
+
+void GameBoard::mouseDown(wxMouseEvent &event)
+{
+    while (wxGetMouseState().LeftIsDown())
+    {
+        int tileNb = mouseToTile();
+        drawSingleTile(tileNb, -3);
+        for (int direction : {1, -1, columns, -columns, -columns - 1, -columns + 1, columns + 1, columns - 1})
+            drawSingleTile(tileNb + direction, 0);
+    }
+    event.Skip();
+}
+
+int GameBoard::mouseToTile()
+{
+    int mouseX;
+    int mouseY;
+    float fScale = getScaleFactor();
+    wxGetMousePosition(&mouseX, &mouseY);
+    ScreenToClient(&mouseX, &mouseY);
+    return (floor((float)mouseX / (float)tileWidth / fScale) * columns + floor((float)mouseY / (float)tileWidth / fScale));
 }

@@ -63,7 +63,12 @@
         "numeric": "cpp",
         "random": "cpp",
         "string_view": "cpp",
-        "ranges": "cpp"
+        "ranges": "cpp",
+        "map": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp",
+        "ctime": "cpp",
+        "iomanip": "cpp"
     },
     "[cpp]": {
         "editor.defaultFormatter": "ms-vscode.cpptools"

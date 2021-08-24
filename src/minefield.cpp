@@ -27,6 +27,7 @@ void Minefield::generateMines(int numMines)
         else
             iter->setTileValue(-1);
     }
+    generateValues();
 }
 
 void Minefield::generateValues()
@@ -45,7 +46,7 @@ void Minefield::generateValues()
     }
 }
 
-void Minefield::printField()
+void Minefield::displayField()
 {
     int j = 1;
     for (int i = 0; i < (fieldX * fieldY); i++)

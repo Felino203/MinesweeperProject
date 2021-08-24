@@ -16,12 +16,12 @@ public:
     vector<shared_ptr<Tile>> getField() { return field; }
     void generateMines(int numMines);
     void generateValues();
-    void printField();
+
+    void displayField();
 
 private:
     bool isLooping(int position, int nextPosition);
-    vector<shared_ptr<Tile>>
-        field;
+    vector<shared_ptr<Tile>> field;
     int fieldX;
     int fieldY;
 };

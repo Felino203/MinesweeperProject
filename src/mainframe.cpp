@@ -19,7 +19,7 @@ void executeGame()
     Minefield minefield = Minefield(16, 30);
     minefield.generateMines(99);
     minefield.generateValues();
-    minefield.printField();
+    minefield.displayField();
 
     cout << "test";
 }
@@ -27,6 +27,7 @@ void executeGame()
 MainFrame::MainFrame()
     : wxFrame(NULL, wxID_ANY, "Minesweeper")
 {
+    SetSize(400, 100, 400, 300);
     createMenuBar();
     CreateStatusBar();
 }
@@ -62,81 +63,19 @@ void MainFrame::createMenuBar()
 
 void MainFrame::createGameBoard(int rows, int columns)
 {
-    wxBoxSizer *sizerH = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer *mainSizer = new wxBoxSizer(wxHORIZONTAL);
 
-    gameBoard = new GameBoard(this);
+    this->SetSizer(mainSizer);
 
-    this->SetSizer(sizerH);
+    if (gameBoard != nullptr)
+        gameBoard->Destroy();
+    gameBoard = new GameBoard(this, 10, 10);
 
-    sizerH->Add(gameBoard, 0, wxSHAPED || wxALIGN_CENTER);
+    mainSizer->Add(gameBoard, 1, wxEXPAND);
 
     gameBoard->paintNow();
     this->Refresh();
     this->Update();
-
-    // wxGridSizer *gridSizer = new wxGridSizer(rows, columns, 1, 1);
-    // this->SetSizer(gridSizer);
-
-    // for (int i = 0; i < rows * columns; i++)
-    // {
-    //     wxImage *tileImg = new wxImage();
-    //     tileImg->LoadFile("assets\\blank_case.png", wxBITMAP_TYPE_PNG);
-
-    //     wxStaticBitmap *tile = new wxStaticBitmap(this, i + 20, wxBitmap(*tileImg));
-
-    //     gridSizer->Add(tile);
-
-    //     //wxBitmap *tileBitmap = new wxBitmap("assets\\blank_case.png", wxBITMAP_TYPE_PNG);
-    //     //tileBitmap->SetHeight(32);
-    //     //tileBitmap->SetWidth(32);
-    //     //gridSizer->Add(new wxStaticBitmap(this, i + 20, *tileBitmap));
-    // }
-}
-
-void MainFrame::OnPaint(wxPaintEvent &e)
-{
-
-    // wxImage *tileImg = new wxImage();
-    // tileImg->LoadFile("assets\\blank_case.png", wxBITMAP_TYPE_PNG);
-
-    // wxBitmap tileBmp = wxBitmap(*tileImg);
-    // wxPaintDC dc(this);
-
-    // float fWScale = 1.0f; // horizontal scaling factor
-    // float fHScale = 1.0f; // vertical scaling factor
-    // int iImageH = -1;     // the bitmap's height
-    // int iImageW = -1;     // the bitmap's width
-    // int iThisH = -1;      // the panel's height
-    // int iThisW = -1;      // the panel's width
-
-    // // how is the bitmap's actual size?
-    // iImageH = tileBmp.GetHeight();
-    // iImageW = tileBmp.GetWidth();
-
-    // //Panel size
-    // GetSize(&iThisW, &iThisH);
-
-    // // no division by zero !
-    // if ((iImageH > 0) && (iImageW > 0))
-    // {
-    //     // calculate the scaling factor for the 2 dimensions
-    //     fHScale = (float)iThisH / (float)iImageH;
-    //     fWScale = (float)iThisW / (float)iImageW;
-
-    //     // always take the smaller scaling factor,
-    //     // so that the bitmap will always fit into the panel's paintable area
-    //     if (fHScale < fWScale)
-    //     {
-    //         fWScale = fHScale;
-    //     }
-    //     else
-    //     {
-    //         fHScale = fWScale;
-    //     }
-    // }
-
-    // dc.SetUserScale(fHScale, fWScale);
-    // dc.DrawBitmap(tileBmp, 0, 0, false);
 }
 
 void MainFrame::clearChecks()
@@ -155,7 +94,7 @@ void MainFrame::onExit(wxCommandEvent &event)
 
 void MainFrame::onAbout(wxCommandEvent &event)
 {
-    wxMessageBox("How about you google this: HOW DO I PLAY MINESWEEPER??? You clown.",
+    wxMessageBox("How about you google this:\nHOW DO I PLAY MINESWEEPER??? \n\nYou are a clown.",
                  "You dont know how to play?", wxOK | wxICON_INFORMATION);
 }
 
